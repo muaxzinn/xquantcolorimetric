@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQuant Colorimetric</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">XQuant Colorimetric Smart Photometer</h1>
+            <p class="text-gray-600">Chemical concentration analysis based on Beer-Lambert Law classic Machine learning and AI </p>
+        </header>
+
+        <!-- Quality Metrics Dashboard -->
+        <section class="section" id="qualityMetrics">
+            <!-- Content loaded dynamically -->
+        </section>
+
+        <!-- User Input Section -->
+        <section class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">1. Sample Input</h2>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Blank Reference</label>
+                <select id="blankReference" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="">-- Select Blank Sample --</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Sample Information -->
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Sample Type</label>
+                        <select id="sampleType" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <option value="standard">Standard</option>
+                            <option value="blank">Blank</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </div>
+                    
+                    <div id="concentrationInput" class="mb-4">
+                        <label class="block text-gray-700 mb-2">Concentration (C)</label>
+                        <input type="number" id="concentration" step="0.0001" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">X-axis Type</label>
+                        <select id="xAxisType" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <option value="C">C (linear)</option>
+                            <option value="logC">log(C)</option>
+                            <option value="lnC">ln(C)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block text-gray-700">Extinction Coefficient (ε)</label>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="useExtinctionCoeff" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                <span class="ml-2 text-sm text-gray-600">ใช้</span>
+                            </label>
+                        </div>
+                        <input type="number" id="extinctionCoeff" step="0.0001" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" placeholder="Optional" disabled>
+                    </div>
+                </div>
+                
+                <!-- Color Input -->
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Color Input Method</label>
+                        <div class="flex space-x-2">
+                            <button id="manualInputBtn" class="px-3 py-1 bg-blue-600 text-white rounded-md">Manual RGB</button>
+                            <button id="hexInputBtn" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">HEX Code</button>
+                            <button id="imageInputBtn" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">Upload Image</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual RGB Input -->
+                    <div id="manualInputSection" class="mb-4">
+                        <label class="block text-gray-700 mb-2">RGB Values (0-255)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="number" id="red" min="0" max="255" placeholder="R" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <input type="number" id="green" min="0" max="255" placeholder="G" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <input type="number" id="blue" min="0" max="255" placeholder="B" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    
+                    <!-- HEX Input -->
+                    <div id="hexInputSection" class="mb-4 hidden">
+                        <label class="block text-gray-700 mb-2">HEX Color Code</label>
+                        <div class="flex items-center">
+                            <input type="text" id="hexColor" placeholder="#RRGGBB" class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md shadow-sm">
+                            <div id="colorPreview" class="color-preview ml-2"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Upload -->
+                    <div id="imageInputSection" class="mb-4 hidden">
+                        <label class="block text-gray-700 mb-2">Upload Image</label>
+                        <input type="file" id="imageUpload" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        <div class="mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="imageMethod" value="average" checked class="mr-2">
+                                <span class="text-gray-700">Average Color</span>
+                            </label>
+                            <label class="inline-flex items-center ml-4">
+                                <input type="radio" name="imageMethod" value="center" class="mr-2">
+                                <span class="text-gray-700">Center Point</span>
+                            </label>
+                        </div>
+                        <canvas id="imageCanvas" class="mt-2 border border-gray-300 hidden" width="200" height="200"></canvas>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button id="clearFormBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Clear</button>
+                        <button id="addSampleBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Add Sample</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sample Table Display -->
+        <section class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">2. Sample Data</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="py-2 px-4 border-b">Sample</th>
+                            <th class="py-2 px-4 border-b">Type</th>
+                            <th class="py-2 px-4 border-b">Color</th>
+                            <th class="py-2 px-4 border-b">RGB</th>
+                            <th class="py-2 px-4 border-b">C</th>
+                            <th class="py-2 px-4 border-b">Absorbance</th>
+                            <th class="py-2 px-4 border-b">CMYK</th>
+                            <th class="py-2 px-4 border-b">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sampleTableBody">
+                        <!-- Samples will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+        <!-- Regression Analysis -->
+        <section class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">3. Regression Analysis</h2>
+            
+            <div class="mb-4">
+                <button id="runRegressionBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Run Regression Analysis</button>
+            </div>
+            
+            <div id="regressionResults">
+                <div id="topRegressions" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <!-- Top 3 regressions will be shown here -->
+                </div>
+                
+                <div id="hiddenRegressions" class="hidden-regressions">
+                    <div id="allRegressions" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- All other regressions will be shown here -->
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button id="showMoreBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Show All Regressions</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prediction Section -->
+        <section class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">4. Concentration Prediction</h2>
+            <div id="predictionResults">
+                <!-- Predictions will be shown here -->
+            </div>
+        </section>
+
+        <!-- Save Best Regression Section -->
+        <section class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">5. Save Best Regression</h2>
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-medium text-gray-700">Best Regression Data</h3>
+                    <div class="flex space-x-2">
+                        <button id="saveBestRegressionBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Save Best Regression</button>
+                        <button id="loadSavedRegressionBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Load Saved Data</button>
+                        <button id="viewSavedListBtn" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">View Saved List</button>
+                        <button id="goToPredictionBtn" class="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            ไปหน้า Prediction
+                        </button>
+                    </div>
+                </div>
+                <div id="bestRegressionInfo" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-gray-600">Best Regression:</span>
+                        <span class="font-medium" id="bestRegressionName">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">R² Value:</span>
+                        <span class="font-medium" id="bestRSquared">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">RMSE:</span>
+                        <span class="font-medium" id="bestRMSE">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Equation:</span>
+                        <span class="font-medium" id="bestEquation">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Blank Reference:</span>
+                        <span class="font-medium" id="bestBlankRef">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-600">Extinction Coefficient:</span>
+                        <span class="font-medium" id="bestExtinctionCoeff">--</span>
+                    </div>
+                </div>
+                
+                <!-- New Save Options -->
+                <div class="mt-6 pt-4 border-t border-blue-200">
+                    <h4 class="font-medium text-gray-700 mb-3">Save Options:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <button id="saveToLocalBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path>
+                            </svg>
+                            บันทึกลงเครื่อง
+                        </button>
+                        <button id="saveToServerBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            บันทึกลง Server
+                        </button>
+                        <button id="saveToSessionBtn" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 text-sm">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            บันทึกชั่วคราว
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Graph Display -->
+        <section class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">6. Regression Visualization</h2>
+            <div class="w-full h-96">
+                <canvas id="regressionChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Saved List Section (Hidden by default) -->
+        <section class="section" id="savedListSection" style="display: none;">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">7. Saved Regression List</h2>
+            
+            <!-- Mode Toggle -->
+            <div class="mb-6">
+                <div class="flex space-x-2">
+                    <button id="localModeBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">ข้อมูลในเครื่อง</button>
+                    <button id="serverModeBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">ข้อมูลบน Server</button>
+                    <button id="backToMainBtn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 ml-auto">กลับไปหน้าหลัก</button>
+                </div>
+                
+                <!-- Delete Controls -->
+                <div class="mt-4 flex space-x-2">
+                    <button id="deleteSelectedBtn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700" disabled>
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        ลบที่เลือก
+                    </button>
+                    <button id="clearAllBtn" class="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        ล้างทั้งหมด
+                    </button>
+                </div>
+            </div>
+            
+            <!-- List Container -->
+            <div id="savedListContainer" class="space-y-4">
+                <!-- Saved items will be displayed here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Enter Server Password</h3>
+                <input type="password" id="serverPassword" placeholder="Enter password" class="w-full px-3 py-2 border border-gray-300 rounded-md mb-4">
+                <div class="flex space-x-2">
+                    <button id="confirmPasswordBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Confirm</button>
+                    <button id="cancelPasswordBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal for Delete Operations -->
+    <div id="adminPasswordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Enter Admin Password</h3>
+                <p class="text-sm text-gray-600 mb-4">กรุณาใส่รหัสแอดมินเพื่อลบข้อมูล</p>
+                <input type="password" id="adminPassword" placeholder="Enter admin password" class="w-full px-3 py-2 border border-gray-300 rounded-md mb-4">
+                <div class="flex space-x-2">
+                    <button id="confirmAdminPasswordBtn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Confirm Delete</button>
+                    <button id="cancelAdminPasswordBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

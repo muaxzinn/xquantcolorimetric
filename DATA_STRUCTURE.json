@@ -1,0 +1,156 @@
+{
+  "regressionDataStructure": {
+    "description": "โครงสร้างข้อมูลสำหรับการบันทึกสมการเชิงเส้น",
+    "version": "1.0",
+    "fields": {
+      "id": {
+        "type": "string",
+        "description": "รหัสเฉพาะของข้อมูล (timestamp)",
+        "example": "1703123456789"
+      },
+      "timestamp": {
+        "type": "string",
+        "description": "เวลาที่สร้างข้อมูล",
+        "example": "2023-12-21T10:30:45.123Z"
+      },
+      "name": {
+        "type": "string",
+        "description": "ชื่อของข้อมูล (auto-generated)",
+        "example": "Regression_20231221_103045"
+      },
+      "rSquared": {
+        "type": "number",
+        "description": "ค่า R-squared ของสมการ",
+        "example": 0.9876
+      },
+      "rmse": {
+        "type": "number",
+        "description": "ค่า Root Mean Square Error",
+        "example": 0.0234
+      },
+      "equation": {
+        "type": "string",
+        "description": "สมการเชิงเส้นในรูปแบบ y = mx + b",
+        "example": "y = 2.5x + 1.2"
+      },
+      "blankReference": {
+        "type": "object",
+        "description": "ค่าอ้างอิง blank",
+        "properties": {
+          "r": { "type": "number", "example": 255 },
+          "g": { "type": "number", "example": 255 },
+          "b": { "type": "number", "example": 255 }
+        }
+      },
+      "extinctionCoeff": {
+        "type": "number",
+        "description": "ค่าสัมประสิทธิ์การดูดกลืนแสง",
+        "example": 2.5
+      },
+      "pathLength": {
+        "type": "number",
+        "description": "ความยาวเส้นทาง",
+        "example": 1.0
+      },
+      "xAxisType": {
+        "type": "string",
+        "description": "ประเภทแกน X (concentration หรือ absorbance)",
+        "example": "concentration"
+      },
+      "samples": {
+        "type": "array",
+        "description": "ข้อมูลตัวอย่างทั้งหมด",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "example": "Sample 1" },
+            "concentration": { "type": "number", "example": 0.5 },
+            "absorbance": { "type": "number", "example": 0.234 },
+            "rgb": {
+              "type": "object",
+              "properties": {
+                "r": { "type": "number", "example": 200 },
+                "g": { "type": "number", "example": 180 },
+                "b": { "type": "number", "example": 160 }
+              }
+            }
+          }
+        }
+      },
+      "saveType": {
+        "type": "string",
+        "description": "ประเภทการบันทึก (local, server, session)",
+        "example": "local"
+      },
+      "saveTime": {
+        "type": "string",
+        "description": "เวลาที่บันทึกข้อมูล",
+        "example": "2023-12-21T10:30:45.123Z"
+      }
+    }
+  },
+  "exampleData": {
+    "id": "1703123456789",
+    "timestamp": "2023-12-21T10:30:45.123Z",
+    "name": "Regression_20231221_103045",
+    "rSquared": 0.9876,
+    "rmse": 0.0234,
+    "equation": "y = 2.5x + 1.2",
+    "blankReference": {
+      "r": 255,
+      "g": 255,
+      "b": 255
+    },
+    "extinctionCoeff": 2.5,
+    "pathLength": 1.0,
+    "xAxisType": "concentration",
+    "samples": [
+      {
+        "name": "Sample 1",
+        "concentration": 0.5,
+        "absorbance": 0.234,
+        "rgb": {
+          "r": 200,
+          "g": 180,
+          "b": 160
+        }
+      },
+      {
+        "name": "Sample 2",
+        "concentration": 1.0,
+        "absorbance": 0.456,
+        "rgb": {
+          "r": 180,
+          "g": 160,
+          "b": 140
+        }
+      },
+      {
+        "name": "Sample 3",
+        "concentration": 1.5,
+        "absorbance": 0.678,
+        "rgb": {
+          "r": 160,
+          "g": 140,
+          "b": 120
+        }
+      }
+    ],
+    "saveType": "local",
+    "saveTime": "2023-12-21T10:30:45.123Z"
+  },
+  "storageKeys": {
+    "localStorage": {
+      "local_saves": "xquant_local_saves",
+      "server_backup": "xquant_server_backup"
+    },
+    "sessionStorage": {
+      "session_saves": "xquant_session_saves"
+    }
+  },
+  "notes": {
+    "localStorage": "ข้อมูลจะถูกเก็บไว้ถาวรจนกว่าผู้ใช้จะลบ cache เอง",
+    "sessionStorage": "ข้อมูลจะหายเมื่อปิดแท็บหรือปิดเบราว์เซอร์",
+    "server": "ข้อมูลจะถูกส่งไปยัง server และเก็บไว้ใน localStorage เป็น backup"
+  }
+}

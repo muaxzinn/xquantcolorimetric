@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQuant Colorimetric Analysis System - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <i class="fas fa-flask text-3xl text-blue-600 mr-3 animate-float"></i>
+                    <a href="#home" class="navbar-brand">XQuant</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link">หน้าแรก</a>
+                    <a href="#features" class="nav-link">คุณสมบัติ</a>
+                    <a href="#demo" class="nav-link">สาธิต</a>
+                    <a href="#tech" class="nav-link">เทคโนโลยี</a>
+                    <a href="#contact" class="nav-link">ติดต่อ</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-600 hover:text-blue-600 transition" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="py-4 space-y-4 border-t border-gray-200">
+                    <a href="#home" class="block text-gray-600 hover:text-blue-600 transition text-thai">หน้าแรก</a>
+                    <a href="#features" class="block text-gray-600 hover:text-blue-600 transition text-thai">คุณสมบัติ</a>
+                    <a href="#demo" class="block text-gray-600 hover:text-blue-600 transition text-thai">สาธิต</a>
+                    <a href="#tech" class="block text-gray-600 hover:text-blue-600 transition text-thai">เทคโนโลยี</a>
+                    <a href="#contact" class="block text-gray-600 hover:text-blue-600 transition text-thai">ติดต่อ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section text-white">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="hero-content">
+                <i class="fas fa-atom text-7xl mb-6 animate-fade-in-up animate-float"></i>
+                <h1 class="hero-title animate-fade-in-up">XQuant Colorimetric Analysis System</h1>
+                <p class="hero-subtitle animate-fade-in-up">
+                    ระบบวิเคราะห์ความเข้มข้นทางเคมีแบบ Colorimetric ที่ใช้กฎของ Beer-Lambert 
+                    และการวิเคราะห์การถดถอยเชิงเส้นด้วย AI และ Machine Learning
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in-up">
+                    <a href="index.html" class="btn btn-primary">
+                        <i class="fas fa-play mr-3"></i>เริ่มใช้งาน
+                    </a>
+                    <a href="#demo" class="btn btn-secondary">
+                        <i class="fas fa-eye mr-3"></i>ดูสาธิต
+                    </a>
+                </div>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10 text-white-thai">
+                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>ความแม่นยำสูงด้วยการถดถอยเชิงเส้นและตัวชี้วัด R²/RMSE</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>ใช้งานง่าย รองรับการป้อนข้อมูลหลายรูปแบบ (RGB/HEX/รูปภาพ)</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>ติดตามผลแบบเรียลไทม์และส่งออกข้อมูลได้ทันที</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>เหมาะกับห้องแล็บ การเรียนการสอน และการวิจัย</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="section-title">คุณสมบัติหลัก</h2>
+                <p class="section-subtitle">
+                    ระบบที่ออกแบบมาเพื่อการวิเคราะห์ทางเคมีที่แม่นยำและใช้งานง่าย
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="card card-hover interactive-card" onclick="showFeatureModal('regression')">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white-800 mb-4 text-thai-bold">การวิเคราะห์การถดถอย</h3>
+                    <p class="text-gray-600 text-thai">
+                        วิเคราะห์ข้อมูลด้วยการถดถอยเชิงเส้น คำนวณ R² และ RMSE สำหรับแต่ละช่องสี
+                    </p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">คลิกเพื่อดูรายละเอียด</span>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card card-hover interactive-card" onclick="showFeatureModal('realtime')">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white-800 mb-4 text-thai-bold">การติดตามแบบเรียลไทม์</h3>
+                    <p class="text-gray-600 text-thai">
+                        บันทึกและแสดงผลข้อมูลแบบเรียลไทม์ พร้อมกราฟและสถิติแบบสด
+                    </p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">คลิกเพื่อดูรายละเอียด</span>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card card-hover interactive-card" onclick="showFeatureModal('color')">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white-800 mb-4 text-thai-bold">การป้อนสีหลายวิธี</h3>
+                    <p class="text-gray-600 text-thai">
+                        รองรับการป้อนสีผ่าน RGB, HEX Code และการอัปโหลดรูปภาพ
+                    </p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium">คลิกเพื่อดูรายละเอียด</span>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card card-hover interactive-card" onclick="showFeatureModal('database')">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white-800 mb-4 text-thai-bold">การบันทึกข้อมูล</h3>
+                    <p class="text-gray-600 text-thai">
+                        บันทึกข้อมูลใน localStorage และส่งออกเป็นไฟล์ CSV
+                    </p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-medium">คลิกเพื่อดูรายละเอียด</span>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="card card-hover interactive-card" onclick="showFeatureModal('ai')">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white-800 mb-4 text-thai-bold">AI และ Machine Learning</h3>
+                    <p class="text-gray-600 text-thai">
+                        ใช้อัลกอริทึม ML สำหรับการวิเคราะห์และทำนายความเข้มข้น
+                    </p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-medium">คลิกเพื่อดูรายละเอียด</span>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="card card-hover interactive-card" onclick="showFeatureModal('responsive')">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white-800 mb-4 text-thai-bold">Responsive Design</h3>
+                    <p class="text-gray-600 text-thai">
+                        ออกแบบให้ใช้งานได้ดีทั้งบนคอมพิวเตอร์และมือถือ
+                    </p>
+                    <div class="mt-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">คลิกเพื่อดูรายละเอียด</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section section">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="section-title">สาธิตการใช้งาน</h2>
+                <p class="section-subtitle">
+                    ดูตัวอย่างการทำงานของระบบ XQuant Colorimetric Analysis
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Demo Card 1 -->
+                <div class="demo-card interactive-card" onclick="showDemoModal('calibration')">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-calculator text-4xl mr-4"></i>
+                        <h3 class="text-2xl font-semibold text-thai-bold">ระบบ Calibration</h3>
+                    </div>
+                    <p class="mb-6 text-thai">
+                        ระบบสำหรับการปรับเทียบและวิเคราะห์การถดถอยเชิงเส้น
+                    </p>
+                    <ul class="space-y-3 mb-8 text-thai">
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>ป้อนข้อมูล Blank, Standard, Unknown</li>
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>วิเคราะห์การถดถอยแบบหลายช่องสี</li>
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>คำนวณ R² และ RMSE</li>
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>บันทึก regression ที่ดีที่สุด</li>
+                    </ul>
+                    <div class="rounded-lg bg-gradient-to-r from-blue-100 to-teal-100 h-48 flex items-center justify-center text-blue-800 font-semibold mb-6 overflow-hidden">
+                        <picture class="w-full h-full block">
+                            <source srcset="https://raw.githubusercontent.com/muaxzinn/ROVPBMO/main/assets/img/calibrate.png" type="image/png">
+                            <img src="https://via.placeholder.com/800x300.png?text=Real-time+Dashboard+Preview" alt="ตัวอย่างแดชบอร์ดแบบเรียลไทม์" loading="lazy" class="w-full h-full object-cover">
+                        </picture>
+                    </div>
+                    <a href="index.html" class="btn btn-primary" onclick="event.stopPropagation()">
+                        <i class="fas fa-rocket mr-2"></i>ใช้งานระบบ Calibration
+                    </a>
+                </div>
+
+                <!-- Demo Card 2 -->
+                <div class="demo-card interactive-card" onclick="showDemoModal('realtime')">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-chart-bar text-4xl mr-4"></i>
+                        <h3 class="text-2xl font-semibold text-thai-bold">ระบบ Real-time Monitoring</h3>
+                    </div>
+                    <p class="mb-6 text-thai">
+                        ระบบติดตามและบันทึกข้อมูลแบบเรียลไทม์
+                    </p>
+                    <ul class="space-y-3 mb-8 text-thai">
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>ติดตามข้อมูลแบบเรียลไทม์</li>
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>แสดงกราฟและสถิติแบบสด</li>
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>คำนวณความเข้มข้นอัตโนมัติ</li>
+                        <li><i class="fas fa-check mr-3 text-green-300"></i>ส่งออกข้อมูลเป็น CSV</li>
+                    </ul>
+                    <div class="rounded-lg bg-gradient-to-r from-blue-100 to-teal-100 h-48 flex items-center justify-center text-blue-800 font-semibold mb-6 overflow-hidden">
+                        <picture class="w-full h-full block">
+                            <source srcset="https://raw.githubusercontent.com/muaxzinn/ROVPBMO/main/assets/img/prediction.png" type="image/png">
+                            <img src="https://via.placeholder.com/800x300.png?text=Real-time+Dashboard+Preview" alt="ตัวอย่างแดชบอร์ดแบบเรียลไทม์" loading="lazy" class="w-full h-full object-cover">
+                        </picture>
+                    
+                    </div>
+                    <a href="prediction.html" class="btn btn-primary" onclick="event.stopPropagation()">
+                        <i class="fas fa-rocket mr-2"></i>ใช้งานระบบ Real-time
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accordion Section -->
+    <section id="details" class="section">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="section-title">รายละเอียดเพิ่มเติม</h2>
+                <p class="section-subtitle">ขยายหัวข้อเพื่ออ่านรายละเอียดเชิงลึกของระบบ ฟีเจอร์ และประโยชน์</p>
+            </div>
+            <div class="space-y-4">
+                <div class="acc-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="acc-header w-full flex items-center justify-between p-4 text-left text-thai-bold">
+                        <span>ภาพรวมระบบ</span>
+                        <i class="fas fa-chevron-down acc-icon transition-transform"></i>
+                    </button>
+                    <div class="acc-panel max-h-0 overflow-hidden">
+                        <div class="p-4 text-thai">
+                            ระบบ XQuant ถูกออกแบบเพื่อช่วยให้นักวิจัยและผู้ใช้งานทั่วไปสามารถวิเคราะห์ความเข้มข้นทางเคมีด้วยวิธี Colorimetric ได้อย่างแม่นยำ รวดเร็ว และใช้งานง่าย พร้อมด้วยการติดตามผลแบบเรียลไทม์และการส่งออกข้อมูล
+                        </div>
+                    </div>
+                </div>
+                <div class="acc-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="acc-header w-full flex items-center justify-between p-4 text-left text-thai-bold">
+                        <span>ความแม่นยำและประโยชน์</span>
+                        <i class="fas fa-chevron-down acc-icon transition-transform"></i>
+                    </button>
+                    <div class="acc-panel max-h-0 overflow-hidden">
+                        <div class="p-4 text-thai">
+                            ใช้กฎของ Beer-Lambert ร่วมกับการถดถอยเชิงเส้น คำนวณ R² และ RMSE เพื่อประเมินคุณภาพโมเดล ทำให้มั่นใจได้ในผลลัพธ์ และสามารถประยุกต์ใช้ในงานแล็บ การเรียนการสอน และงานวิจัยได้อย่างกว้างขวาง
+                        </div>
+                    </div>
+                </div>
+                <div class="acc-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="acc-header w-full flex items-center justify-between p-4 text-left text-thai-bold">
+                        <span>วิธีเริ่มต้นใช้งาน</span>
+                        <i class="fas fa-chevron-down acc-icon transition-transform"></i>
+                    </button>
+                    <div class="acc-panel max-h-0 overflow-hidden">
+                        <div class="p-4 text-thai">
+                            1) ป้อนข้อมูลอ้างอิง Blank และ Standard 2) ป้อน Unknown (ถ้ามี) 3) รันการถดถอยและเลือก Best Regression 4) ใช้งานโหมด Real-time เพื่อคำนวณอัตโนมัติและส่งออกข้อมูล
+                        </div>
+                    </div>
+                </div>
+                <div class="acc-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="acc-header w-full flex items-center justify-between p-4 text-left text-thai-bold">
+                        <span>คำถามที่พบบ่อย</span>
+                        <i class="fas fa-chevron-down acc-icon transition-transform"></i>
+                    </button>
+                    <div class="acc-panel max-h-0 overflow-hidden">
+                        <div class="p-4 text-thai space-y-2">
+                            <p><span class="font-semibold">ถาม:</span> รองรับไฟล์ภาพแบบใดบ้าง?</p>
+                            <p><span class="font-semibold">ตอบ:</span> รองรับ PNG/JPG และจะสกัดค่าเฉลี่ยสีจากพื้นที่ที่เลือก</p>
+                            <p><span class="font-semibold">ถาม:</span> สามารถบันทึกโมเดลที่ดีที่สุดได้หรือไม่?</p>
+                            <p><span class="font-semibold">ตอบ:</span> ได้ ระบบจะเก็บค่าพารามิเตอร์ไว้สำหรับใช้งานครั้งถัดไป</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section id="tech" class="tech-stack text-white section">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="section-title">เทคโนโลยีที่ใช้</h2>
+                <p class="section-subtitle">
+                    ระบบพัฒนาด้วยเทคโนโลยีที่ทันสมัยและเสถียร
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="tech-item tooltip" onclick="showTechModal('html5')">
+                    <i class="fab fa-html5"></i>
+                    <h3 class="text-lg font-semibold">HTML5</h3>
+                    <p class="text-sm opacity-90 text-thai">โครงสร้างเว็บไซต์</p>
+                    <span class="tooltiptext">คลิกเพื่อดูรายละเอียด</span>
+                </div>
+                <div class="tech-item tooltip" onclick="showTechModal('css3')">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3 class="text-lg font-semibold">CSS3</h3>
+                    <p class="text-sm opacity-90 text-thai">การออกแบบและสไตล์</p>
+                    <span class="tooltiptext">คลิกเพื่อดูรายละเอียด</span>
+                </div>
+                <div class="tech-item tooltip" onclick="showTechModal('javascript')">
+                    <i class="fab fa-js"></i>
+                    <h3 class="text-lg font-semibold">JavaScript</h3>
+                    <p class="text-sm opacity-90 text-thai">การทำงานแบบ Dynamic</p>
+                    <span class="tooltiptext">คลิกเพื่อดูรายละเอียด</span>
+                </div>
+                <div class="tech-item tooltip" onclick="showTechModal('chartjs')">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3 class="text-lg font-semibold">Chart.js</h3>
+                    <p class="text-sm opacity-90 text-thai">การแสดงกราฟ</p>
+                    <span class="tooltiptext">คลิกเพื่อดูรายละเอียด</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-gray-800">ติดต่อเรา</h2>
+                <p class="section-subtitle">
+                    หากมีคำถามหรือต้องการความช่วยเหลือ สามารถติดต่อเราได้
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="contact-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6 text-thai-bold">ข้อมูลติดต่อ</h3>
+                    <div class="space-y-4">
+                        <div class="contact-item" onclick="copyToClipboard('info@xquant.com')">
+                            <i class="fas fa-envelope"></i>
+                            <span class="text-gray-600 text-thai">info@xquant.com</span>
+                        </div>
+                        <div class="contact-item" onclick="copyToClipboard('+66 2 123 4567')">
+                            <i class="fas fa-phone"></i>
+                            <span class="text-gray-600 text-thai">+66 2 123 4567</span>
+                        </div>
+                        <div class="contact-item" onclick="showLocationModal()">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="text-gray-600 text-thai">กรุงเทพมหานคร, ประเทศไทย</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6 text-thai-bold">ลิงก์ที่เกี่ยวข้อง</h3>
+                    <div class="space-y-4">
+                        <a href="index.html" class="block text-blue-600 hover:text-blue-800 transition text-thai">
+                            <i class="fas fa-external-link-alt mr-3"></i>ระบบ Calibration
+                        </a>
+                        <a href="prediction.html" class="block text-blue-600 hover:text-blue-800 transition text-thai">
+                            <i class="fas fa-external-link-alt mr-3"></i>ระบบ Real-time Monitoring
+                        </a>
+                        <a href="README.md" class="block text-blue-600 hover:text-blue-800 transition text-thai">
+                            <i class="fas fa-book mr-3"></i>คู่มือการใช้งาน
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="footer-brand">
+                <i class="fas fa-flask"></i>
+                <span class="text-xl font-bold">XQuant</span>
+            </div>
+            <p class="text-gray-400 mb-4 text-thai">
+                ระบบวิเคราะห์ความเข้มข้นทางเคมีแบบ Colorimetric ที่ทันสมัยและแม่นยำ
+            </p>
+            <div class="social-links">
+                <a href="#" onclick="showSocialModal('facebook')" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" onclick="showSocialModal('instagram')" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" onclick="showSocialModal('gmail')" title="Gmail">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="#" onclick="showSocialModal('github')" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6">
+                <p class="text-gray-400 text-thai">
+                    © 2024 XQuant Colorimetric Analysis System. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Feature Modal -->
+    <div id="featureModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('featureModal')">&times;</span>
+            <h2 id="featureModalTitle" class="text-2xl font-bold mb-4 text-thai-bold"></h2>
+            <div id="featureModalContent" class="text-thai"></div>
+        </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div id="demoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('demoModal')">&times;</span>
+            <h2 id="demoModalTitle" class="text-2xl font-bold mb-4 text-thai-bold"></h2>
+            <div id="demoModalContent" class="text-thai"></div>
+        </div>
+    </div>
+
+    <!-- Tech Modal -->
+    <div id="techModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('techModal')">&times;</span>
+            <h2 id="techModalTitle" class="text-2xl font-bold mb-4 text-thai-bold"></h2>
+            <div id="techModalContent" class="text-thai"></div>
+        </div>
+    </div>
+
+    <!-- Location Modal -->
+    <div id="locationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('locationModal')">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 text-thai-bold">ที่ตั้งสำนักงาน</h2>
+            <div class="text-thai">
+                <p class="mb-4">สำนักงานใหญ่ XQuant</p>
+                <p class="mb-4">123 ถนนสุขุมวิท แขวงคลองเตย เขตคลองเตย กรุงเทพมหานคร 10110</p>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <p class="font-semibold mb-2">เวลาทำการ:</p>
+                    <p>จันทร์ - ศุกร์: 8:00 - 18:00 น.</p>
+                    <p>เสาร์: 9:00 - 15:00 น.</p>
+                    <p>อาทิตย์: ปิดทำการ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Modal -->
+    <div id="socialModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('socialModal')">&times;</span>
+            <h2 id="socialModalTitle" class="text-2xl font-bold mb-4 text-thai-bold"></h2>
+            <div id="socialModalContent" class="text-thai"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Add active class to navigation links on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            const navbar = document.querySelector('.navbar');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-blue-600');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-blue-600');
+                }
+            });
+
+            // Add scrolled class to navbar
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Add animation on scroll with Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.card, .demo-card, .tech-item, .contact-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+            
+            // Add staggered animation to hero elements
+            const heroElements = document.querySelectorAll('.hero-content > *');
+            heroElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        // Add floating animation to hero icon
+        const heroIcon = document.querySelector('.hero-section .fa-atom');
+        if (heroIcon) {
+            heroIcon.classList.add('animate-float');
+        }
+
+        // Enhanced hover effects for interactive elements
+        document.querySelectorAll('.interactive-card, .clickable').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+            
+            element.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                const rate = scrolled * -0.5;
+                heroSection.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Smooth reveal animation for sections
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            sectionObserver.observe(section);
+        });
+
+        // Modal functions
+        function showFeatureModal(feature) {
+            const modal = document.getElementById('featureModal');
+            const title = document.getElementById('featureModalTitle');
+            const content = document.getElementById('featureModalContent');
+            
+            const featureData = {
+                regression: {
+                    title: 'การวิเคราะห์การถดถอย',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ระบบวิเคราะห์การถดถอยเชิงเส้นที่ทันสมัยและแม่นยำ</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>วิเคราะห์ข้อมูลแบบหลายตัวแปร</li>
+                                <li>คำนวณค่าสัมประสิทธิ์การตัดสินใจ (R²)</li>
+                                <li>ประเมินความแม่นยำด้วย RMSE</li>
+                                <li>แสดงผลการวิเคราะห์แบบกราฟิก</li>
+                                <li>บันทึกและส่งออกผลลัพธ์</li>
+                            </ul>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="font-semibold text-blue-800">ประโยชน์:</p>
+                                <p class="text-blue-700">ช่วยในการวิเคราะห์ความสัมพันธ์ระหว่างตัวแปรและทำนายผลลัพธ์ได้อย่างแม่นยำ</p>
+                            </div>
+                        </div>
+                    `
+                },
+                realtime: {
+                    title: 'การติดตามแบบเรียลไทม์',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ระบบติดตามและบันทึกข้อมูลแบบเรียลไทม์</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>บันทึกข้อมูลอัตโนมัติตามช่วงเวลาที่กำหนด</li>
+                                <li>แสดงกราฟแบบเรียลไทม์</li>
+                                <li>คำนวณสถิติแบบสด</li>
+                                <li>แจ้งเตือนเมื่อค่าผิดปกติ</li>
+                                <li>ส่งออกข้อมูลเป็น CSV</li>
+                            </ul>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="font-semibold text-green-800">ประโยชน์:</p>
+                                <p class="text-green-700">ช่วยในการติดตามและควบคุมกระบวนการผลิตได้อย่างต่อเนื่อง</p>
+                            </div>
+                        </div>
+                    `
+                },
+                color: {
+                    title: 'การป้อนสีหลายวิธี',
+                    content: `
+                        <div class="space-y-4">
+                            <p>รองรับการป้อนสีผ่านหลายวิธี</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>ป้อนค่าสี RGB แบบแมนวล</li>
+                                <li>ป้อนรหัสสี HEX</li>
+                                <li>อัปโหลดรูปภาพและสกัดสี</li>
+                                <li>เลือกสีจาก color picker</li>
+                                <li>บันทึกสีที่ใช้บ่อย</li>
+                            </ul>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <p class="font-semibold text-purple-800">ประโยชน์:</p>
+                                <p class="text-purple-700">ให้ความยืดหยุ่นในการป้อนข้อมูลและใช้งานง่าย</p>
+                            </div>
+                        </div>
+                    `
+                },
+                database: {
+                    title: 'การบันทึกข้อมูล',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ระบบจัดการข้อมูลที่ครบถ้วน</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>บันทึกข้อมูลใน localStorage</li>
+                                <li>ส่งออกข้อมูลเป็นไฟล์ CSV</li>
+                                <li>สำรองข้อมูลอัตโนมัติ</li>
+                                <li>ค้นหาและกรองข้อมูล</li>
+                                <li>จัดการประวัติการใช้งาน</li>
+                            </ul>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <p class="font-semibold text-yellow-800">ประโยชน์:</p>
+                                <p class="text-yellow-700">ช่วยในการจัดเก็บและจัดการข้อมูลได้อย่างมีประสิทธิภาพ</p>
+                            </div>
+                        </div>
+                    `
+                },
+                ai: {
+                    title: 'AI และ Machine Learning',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ระบบ AI และ Machine Learning ที่ทันสมัย</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>อัลกอริทึม ML สำหรับการวิเคราะห์</li>
+                                <li>การทำนายความเข้มข้นอัตโนมัติ</li>
+                                <li>การเรียนรู้จากข้อมูล</li>
+                                <li>ปรับปรุงความแม่นยำอย่างต่อเนื่อง</li>
+                                <li>การวิเคราะห์แนวโน้ม</li>
+                            </ul>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="font-semibold text-red-800">ประโยชน์:</p>
+                                <p class="text-red-700">ช่วยในการวิเคราะห์และทำนายผลลัพธ์ได้อย่างแม่นยำและอัตโนมัติ</p>
+                            </div>
+                        </div>
+                    `
+                },
+                responsive: {
+                    title: 'Responsive Design',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ออกแบบให้ใช้งานได้ดีทุกอุปกรณ์</p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>รองรับการแสดงผลบนมือถือ</li>
+                                <li>ปรับขนาดอัตโนมัติ</li>
+                                <li>ใช้งานง่ายบนแท็บเล็ต</li>
+                                <li>รองรับการสัมผัส</li>
+                                <li>โหลดเร็วทุกอุปกรณ์</li>
+                            </ul>
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <p class="font-semibold text-indigo-800">ประโยชน์:</p>
+                                <p class="text-indigo-700">สามารถใช้งานได้สะดวกบนอุปกรณ์ทุกประเภท</p>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+            
+            if (featureData[feature]) {
+                title.textContent = featureData[feature].title;
+                content.innerHTML = featureData[feature].content;
+                modal.style.display = 'block';
+                modal.classList.add('animate-fade-in-up');
+            }
+        }
+
+        // Accordion toggle (รายละเอียดเพิ่มเติม)
+        (function initAccordion() {
+            const items = document.querySelectorAll('.acc-item');
+            items.forEach(item => {
+                const header = item.querySelector('.acc-header');
+                const panel = item.querySelector('.acc-panel');
+                const icon = item.querySelector('.acc-icon');
+                if (!header || !panel) return;
+                header.addEventListener('click', () => {
+                    // Close others
+                    items.forEach(other => {
+                        if (other !== item) {
+                            const otherPanel = other.querySelector('.acc-panel');
+                            const otherIcon = other.querySelector('.acc-icon');
+                            if (otherPanel) otherPanel.style.maxHeight = null;
+                            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                    const isOpen = panel.style.maxHeight && panel.style.maxHeight !== '0px';
+                    if (isOpen) {
+                        panel.style.maxHeight = null;
+                        if (icon) icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                        if (icon) icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        })();
+
+        function showDemoModal(demo) {
+            const modal = document.getElementById('demoModal');
+            const title = document.getElementById('demoModalTitle');
+            const content = document.getElementById('demoModalContent');
+            
+            const demoData = {
+                calibration: {
+                    title: 'ระบบ Calibration',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ระบบสำหรับการปรับเทียบและวิเคราะห์การถดถอยเชิงเส้น</p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-blue-800 mb-2">ขั้นตอนการใช้งาน:</h3>
+                                <ol class="list-decimal list-inside space-y-1 text-blue-700">
+                                    <li>ป้อนข้อมูล Blank Reference</li>
+                                    <li>ป้อนข้อมูล Standard Samples</li>
+                                    <li>ป้อนข้อมูล Unknown Samples (ถ้ามี)</li>
+                                    <li>รัน Regression Analysis</li>
+                                    <li>บันทึก Best Regression</li>
+                                </ol>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="font-semibold text-green-800">ผลลัพธ์:</p>
+                                <ul class="list-disc list-inside text-green-700">
+                                    <li>ค่าสัมประสิทธิ์การตัดสินใจ (R²)</li>
+                                    <li>Root Mean Square Error (RMSE)</li>
+                                    <li>สมการการถดถอย</li>
+                                    <li>กราฟแสดงความสัมพันธ์</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                realtime: {
+                    title: 'ระบบ Real-time Monitoring',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ระบบติดตามและบันทึกข้อมูลแบบเรียลไทม์</p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-blue-800 mb-2">คุณสมบัติ:</h3>
+                                <ul class="list-disc list-inside space-y-1 text-blue-700">
+                                    <li>ติดตามข้อมูลแบบเรียลไทม์</li>
+                                    <li>แสดงกราฟและสถิติแบบสด</li>
+                                    <li>คำนวณความเข้มข้นอัตโนมัติ</li>
+                                    <li>ส่งออกข้อมูลเป็น CSV</li>
+                                    <li>แจ้งเตือนเมื่อค่าผิดปกติ</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="font-semibold text-green-800">การใช้งาน:</p>
+                                <ol class="list-decimal list-inside text-green-700">
+                                    <li>ตรวจสอบข้อมูล Regression ที่โหลด</li>
+                                    <li>ตั้งค่าการติดตาม</li>
+                                    <li>เริ่มการติดตาม</li>
+                                    <li>ดูผลลัพธ์แบบเรียลไทม์</li>
+                                </ol>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+            
+            if (demoData[demo]) {
+                title.textContent = demoData[demo].title;
+                content.innerHTML = demoData[demo].content;
+                modal.style.display = 'block';
+                modal.classList.add('animate-fade-in-up');
+            }
+        }
+
+        function showTechModal(tech) {
+            const modal = document.getElementById('techModal');
+            const title = document.getElementById('techModalTitle');
+            const content = document.getElementById('techModalContent');
+            
+            const techData = {
+                html5: {
+                    title: 'HTML5',
+                    content: `
+                        <div class="space-y-4">
+                            <p>เทคโนโลยี HTML5 สำหรับโครงสร้างเว็บไซต์</p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-blue-800 mb-2">คุณสมบัติ:</h3>
+                                <ul class="list-disc list-inside space-y-1 text-blue-700">
+                                    <li>Semantic HTML elements</li>
+                                    <li>Form validation</li>
+                                    <li>Canvas และ SVG</li>
+                                    <li>Local storage</li>
+                                    <li>Responsive design support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                css3: {
+                    title: 'CSS3',
+                    content: `
+                        <div class="space-y-4">
+                            <p>เทคโนโลยี CSS3 สำหรับการออกแบบและสไตล์</p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-blue-800 mb-2">คุณสมบัติ:</h3>
+                                <ul class="list-disc list-inside space-y-1 text-blue-700">
+                                    <li>Flexbox และ Grid</li>
+                                    <li>CSS animations และ transitions</li>
+                                    <li>Media queries</li>
+                                    <li>CSS variables</li>
+                                    <li>Backdrop filters</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                javascript: {
+                    title: 'JavaScript',
+                    content: `
+                        <div class="space-y-4">
+                            <p>เทคโนโลยี JavaScript สำหรับการทำงานแบบ Dynamic</p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-blue-800 mb-2">คุณสมบัติ:</h3>
+                                <ul class="list-disc list-inside space-y-1 text-blue-700">
+                                    <li>ES6+ features</li>
+                                    <li>DOM manipulation</li>
+                                    <li>Event handling</li>
+                                    <li>AJAX และ Fetch API</li>
+                                    <li>Local storage</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                chartjs: {
+                    title: 'Chart.js',
+                    content: `
+                        <div class="space-y-4">
+                            <p>ไลบรารี Chart.js สำหรับการแสดงกราฟ</p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-blue-800 mb-2">คุณสมบัติ:</h3>
+                                <ul class="list-disc list-inside space-y-1 text-blue-700">
+                                    <li>Interactive charts</li>
+                                    <li>Multiple chart types</li>
+                                    <li>Responsive design</li>
+                                    <li>Animation support</li>
+                                    <li>Customizable themes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+            
+            if (techData[tech]) {
+                title.textContent = techData[tech].title;
+                content.innerHTML = techData[tech].content;
+                modal.style.display = 'block';
+                modal.classList.add('animate-fade-in-up');
+            }
+        }
+
+        function showLocationModal() {
+            const modal = document.getElementById('locationModal');
+            modal.style.display = 'block';
+            modal.classList.add('animate-fade-in-up');
+        }
+
+        function showSocialModal(social) {
+            const modal = document.getElementById('socialModal');
+            const title = document.getElementById('socialModalTitle');
+            const content = document.getElementById('socialModalContent');
+            
+            const socialData = {
+                facebook: {
+                    title: 'Facebook',
+                    content: '<p>ติดตามเราได้ที่ Facebook: <a href="#" class="text-blue-600 hover:text-blue-800">XQuant Official</a></p>'
+                },
+                instagram: {
+                    title: 'Instagram',
+                    content: '<div class="space-y-3"><p>ติดตามเราได้ที่ Instagram: <span class="font-semibold">@XQuantOfficial</span></p><button class="btn btn-secondary" onclick="copyToClipboard(\'@XQuantOfficial\')">คัดลอกไอจี</button></div>'
+                },
+                gmail: {
+                    title: 'Gmail',
+                    content: '<p>ติดต่อเราได้ที่ Gmail: <a href="mailto:info@xquant.com" class="text-blue-600 hover:text-blue-800">info@xquant.com</a></p>'
+                },
+                github: {
+                    title: 'GitHub',
+                    content: '<p>ดูโค้ดได้ที่ GitHub: <a href="#" class="text-blue-600 hover:text-blue-800">github.com/xquant</a></p>'
+                }
+            };
+            
+            if (socialData[social]) {
+                title.textContent = socialData[social].title;
+                content.innerHTML = socialData[social].content;
+                modal.style.display = 'block';
+                modal.classList.add('animate-fade-in-up');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('animate-fade-in-up');
+            modal.style.display = 'none';
+        }
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show success message
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in-up';
+                notification.textContent = `คัดลอก "${text}" เรียบร้อยแล้ว!`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Enhanced click effects for interactive elements
+        document.querySelectorAll('.interactive-card, .clickable').forEach(element => {
+            element.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add smooth transitions to all interactive elements
+        document.querySelectorAll('a, button, .card, .tech-item, .contact-item').forEach(element => {
+            element.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    </script>
+</body>
+</html>

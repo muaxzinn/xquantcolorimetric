@@ -1,0 +1,93 @@
+.section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.color-preview {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.regression-card {
+    transition: all 0.3s ease;
+}
+
+.regression-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.hidden-regressions {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.show-regressions {
+    max-height: 1000px;
+}
+
+/* Additional styles for better table display */
+#sampleTableBody tr:hover {
+    background-color: #f8fafc;
+}
+
+#sampleTableBody td {
+    vertical-align: middle;
+}
+
+.color-preview {
+    margin: 0 auto;
+}
+
+/* Modal styles */
+#passwordModal {
+    backdrop-filter: blur(4px);
+}
+
+#passwordModal .bg-white {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* List view styles */
+#savedListContainer .bg-white {
+    transition: all 0.2s ease;
+}
+
+#savedListContainer .bg-white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Button hover effects */
+button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid-cols-1.md\\:grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-cols-1.md\\:grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XQuant - Prediction System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <link rel="stylesheet" href="prediction-styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">XQuant Prediction System</h1>
+            <p class="text-gray-600">ระบบทำนายความเข้มข้นแบบ Real Time และ Normal</p>
+        </header>
+
+        <!-- Blank Reference Setup Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">1. ตั้งค่า Blank Reference</h2>
+            <p class="text-sm text-gray-600 mb-4">กรุณาตั้งค่า Blank Reference ก่อนเริ่มการทำนาย</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Blank Reference Input -->
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Color Input Method</label>
+                        <div class="flex space-x-2">
+                            <button id="manualInputBtn" class="px-3 py-1 bg-blue-600 text-white rounded-md">Manual RGB</button>
+                            <button id="hexInputBtn" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">HEX Code</button>
+                            <button id="imageInputBtn" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md border border-blue-200">Upload Image</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual RGB Input -->
+                    <div id="manualInputSection" class="mb-4">
+                        <label class="block text-gray-700 mb-2">RGB Values (0-255)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="number" id="blankR" min="0" max="255" placeholder="R" 
+                                   class="px-3 py-2 border border-gray-300 rounded-md shadow-sm" value="255">
+                            <input type="number" id="blankG" min="0" max="255" placeholder="G" 
+                                   class="px-3 py-2 border border-gray-300 rounded-md shadow-sm" value="255">
+                            <input type="number" id="blankB" min="0" max="255" placeholder="B" 
+                                   class="px-3 py-2 border border-gray-300 rounded-md shadow-sm" value="255">
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div id="blankColorPreview" class="w-8 h-8 border-2 border-gray-300 rounded-md mr-2"></div>
+                            <span class="text-sm text-gray-600">สี Blank Reference</span>
+                        </div>
+                    </div>
+                    
+                    <!-- HEX Input -->
+                    <div id="hexInputSection" class="mb-4 hidden">
+                        <label class="block text-gray-700 mb-2">HEX Color Code</label>
+                        <div class="flex items-center">
+                            <input type="text" id="blankHexColor" placeholder="#RRGGBB" class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md shadow-sm">
+                            <div id="blankHexColorPreview" class="w-8 h-8 border-2 border-gray-300 rounded-md ml-2"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Upload -->
+                    <div id="imageInputSection" class="mb-4 hidden">
+                        <label class="block text-gray-700 mb-2">Upload Image</label>
+                        <input type="file" id="blankImageUpload" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        <div class="mt-2">
+                            <canvas id="blankImageCanvas" class="hidden max-w-full h-32 border border-gray-300 rounded-md"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button id="clearBlankBtn" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                            Clear
+                        </button>
+                        <button id="addBlankBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            Add blank
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- X-axis Type Selection -->
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">X-axis Type (สำหรับการคำนวณ)</label>
+                        <select id="xAxisType" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <option value="C">C (linear concentration)</option>
+                            <option value="logC">log(C) (log base 10)</option>
+                            <option value="lnC">ln(C) (natural log)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">สูตรการคำนวณ</label>
+                        <div class="bg-gray-50 p-3 rounded-md text-sm">
+                            <div class="mb-2"><strong>Beer-Lambert Law:</strong></div>
+                            <div class="mb-1">A = -log₁₀(T) = -log₁₀(I/I₀)</div>
+                            <div class="mb-1">T = I/I₀ (Transmittance)</div>
+                            <div class="text-xs text-gray-600 mt-2">
+                                โดย: A = Absorbance, T = Transmittance, I = Sample intensity, I₀ = Blank intensity
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="setBlankBtn" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        ตั้งค่า Blank Reference
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Selection -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">2. เลือกโหมดการทำงาน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button id="realTimeModeBtn" class="mode-btn bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg transition-colors">
+                    <div class="flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span class="text-lg font-medium">Real Time Analysis</span>
+                    </div>
+                    <p class="text-sm mt-2 opacity-90">วัดแบบ Real Time พร้อมแสดงสถานะสี</p>
+                </button>
+                <button id="normalModeBtn" class="mode-btn bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg transition-colors">
+                    <div class="flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="text-lg font-medium">Normal Prediction</span>
+                    </div>
+                    <p class="text-sm mt-2 opacity-90">ทำนายความเข้มข้นแบบปกติ</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Load Saved Data Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">3. โหลดข้อมูลที่บันทึกไว้ (เลือกใช้)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <button id="loadLocalBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path>
+                    </svg>
+                    ข้อมูลในเครื่อง
+                </button>
+                <button id="loadServerBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    ข้อมูลบน Server
+                </button>
+                <button id="loadSessionBtn" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    ข้อมูลชั่วคราว
+                </button>
+            </div>
+            
+            <!-- Saved Data List -->
+            <div id="savedDataList" class="hidden">
+                <h3 class="font-medium text-gray-700 mb-3">เลือกข้อมูลที่ต้องการใช้:</h3>
+                <div id="savedDataContainer" class="space-y-2 max-h-60 overflow-y-auto border rounded-md p-3 bg-gray-50">
+                    <!-- Saved data items will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Real Time Analysis Section -->
+        <div id="realTimeSection" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">4. Real Time Analysis</h2>
+                
+                <!-- Target Input -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">ความเข้มข้นเป้าหมาย:</label>
+                    <div class="flex items-center space-x-4">
+                        <input type="number" id="targetConcentration" step="0.01" min="0" 
+                               class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                               placeholder="เช่น 6.0">
+                        <input type="number" id="tolerance" step="0.1" min="0" value="0.5"
+                               class="w-24 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                               placeholder="±0.5">
+                        <span class="text-sm text-gray-600">±</span>
+                    </div>
+                </div>
+
+                <!-- Current Measurement -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">การวัดปัจจุบัน:</label>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-gray-800" id="currentAbsorbance">0.000</div>
+                            <div class="text-sm text-gray-600">Absorbance</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-gray-800" id="currentConcentration">0.000</div>
+                            <div class="text-sm text-gray-600">Concentration</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-2xl font-bold text-gray-800" id="currentTransmittance">0.000</div>
+                            <div class="text-sm text-gray-600">Transmittance</div>
+                        </div>
+                        <div class="text-center p-4 rounded-lg" id="statusIndicator">
+                            <div class="text-2xl font-bold" id="statusText">รอการวัด</div>
+                            <div class="text-sm" id="statusSubtext">กรุณาเริ่มการวัด</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="flex space-x-4">
+                    <button id="startMeasurementBtn" class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        เริ่มการวัด
+                    </button>
+                    <button id="stopMeasurementBtn" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 hidden">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        หยุดการวัด
+                    </button>
+                    <button id="resetRealTimeBtn" class="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        รีเซ็ต
+                    </button>
+                    <button id="runExampleBtn" class="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        รันตัวอย่าง (Camera)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Normal Prediction Section -->
+        <div id="normalSection" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">5. Normal Prediction</h2>
+                
+                <!-- Input Methods -->
+                <div class="mb-6">
+                    <h3 class="font-medium text-gray-700 mb-3">เลือกวิธีการป้อนข้อมูล:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button id="absorbanceInputBtn" class="input-method-btn bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg transition-colors">
+                            <div class="flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                                <span>ป้อน Absorbance</span>
+                            </div>
+                        </button>
+                        <button id="rgbInputBtn" class="input-method-btn bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg transition-colors">
+                            <div class="flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                                </svg>
+                                <span>ป้อน RGB Values</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Absorbance Input -->
+                <div id="absorbanceInput" class="hidden mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Absorbance:</label>
+                    <input type="number" id="absorbanceValue" step="0.001" min="0" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="เช่น 0.234">
+                    <button id="predictFromAbsorbanceBtn" class="mt-3 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        ทำนายความเข้มข้น
+                    </button>
+                </div>
+
+                <!-- RGB Input -->
+                <div id="rgbInput" class="hidden mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">RGB Values:</label>
+                    <div class="grid grid-cols-3 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Red (0-255)</label>
+                            <input type="number" id="rgbR" min="0" max="255" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   placeholder="200">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Green (0-255)</label>
+                            <input type="number" id="rgbG" min="0" max="255" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   placeholder="180">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-600 mb-1">Blue (0-255)</label>
+                            <input type="number" id="rgbB" min="0" max="255" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   placeholder="160">
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 border-2 border-gray-300 rounded-md" id="colorPreview"></div>
+                        <button id="predictFromRGBBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            ทำนายความเข้มข้น
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prediction Result -->
+                <div id="predictionResult" class="hidden">
+                    <h3 class="font-medium text-gray-700 mb-3">ผลการทำนาย:</h3>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-800" id="predictedConcentration">0.000</div>
+                            <div class="text-sm text-blue-600">mg/L</div>
+                        </div>
+                        <div class="mt-3 text-sm text-blue-700">
+                            <div>Absorbance: <span id="calculatedAbsorbance">0.000</span></div>
+                            <div>Transmittance: <span id="calculatedTransmittance">0.000</span></div>
+                            <div>ความแม่นยำ: <span id="predictionAccuracy">0.00%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Equation Display -->
+        <div id="equationDisplay" class="bg-white rounded-lg shadow-md p-6 hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">สมการที่ใช้</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="text-lg font-mono text-gray-800" id="currentEquation">y = mx + b</div>
+                <div class="mt-2 text-sm text-gray-600">
+                    <div>R² = <span id="currentRSquared">0.000</span></div>
+                    <div>RMSE = <span id="currentRMSE">0.000</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Main Button -->
+        <div class="text-center mt-8">
+            <a href="index.html" class="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                กลับไปหน้าหลัก
+            </a>
+        </div>
+    </div>
+
+    <script src="dataHandler.js"></script>
+    <script src="prediction-script.js"></script>
+</body>
+</html>
